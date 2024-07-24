@@ -1,5 +1,6 @@
 const express = require('express');
 const cors = require('cors');
+const { swaggerSpecs, swaggerUI } = require('./swagger');
 const apiRouter = require('./routes/api');
 const apiv2Router = require('./routes/apiv2');
 const apiProdRouter = require('./routes/apiProd');
@@ -21,8 +22,10 @@ credentials: true
 
 app.use('/api/v1', apiRouter)
 app.use('/api/v2', apiv2Router)
-app.use('/api/prod', apiProdRouter)
-app.use('/api/prodv2', apiProdv2Router)
+app.use('/api/prod', apiProdRouter) //add apiprod
+app.use('/api/prodv2', apiProdv2Router) //add apiprodv2
+app.use("/api-docs", swaggerUI.serve, swaggerUI.setup(swaggerSpecs));
+
 
 const ssl_options = {
     key: fs.readFileSync('./ssl/key.pem'),
