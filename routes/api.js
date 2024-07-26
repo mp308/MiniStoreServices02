@@ -9,6 +9,9 @@ const apiLimiter = rateLimit({
 
 const customerController = require('../controllers/customers');
 
+const authController = require('../controllers/auth');
+const userController = require('../controllers/users');
+
 router.post('/customers', apiLimiter, customerController.createCustomer);
 router.put('/customers', apiLimiter, customerController.updateCustomer);
 router.delete('/customers/:id', apiLimiter, customerController.deleteCustomer);
@@ -16,6 +19,11 @@ router.get('/customers/:id', apiLimiter, customerController.getCustomer);
 router.get('/customers/q/:term', apiLimiter, customerController.getCustomersByTerm);
 router.get('/customers', apiLimiter, customerController.getCustomers);
 
+router.get('/customers', authController.verifyToken, customerController.getCustomers);
+
+router.post('/users', userController.createUser);
+router.post('/login', authController.login);
+router.get('/logout', authController.logout);
 module.exports = router;
 
 /**

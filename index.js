@@ -1,6 +1,7 @@
 const express = require('express');
 const cors = require('cors');
 const { swaggerSpecs, swaggerUI } = require('./swagger');
+const cookieParser = require("cookie-parser");
 const apiRouter = require('./routes/api');
 const apiv2Router = require('./routes/apiv2');
 const apiProdRouter = require('./routes/apiProd');
@@ -15,6 +16,7 @@ app.use(cors({
 origin: true,
 credentials: true
 }));
+app.use(cookieParser());
 
 // app.get("/api/hello", (req, res) => {
 // return res.status(200).send('<h1>Hello Server</h1>');

@@ -57,6 +57,14 @@ model products {
   image_url   String? @db.VarChar(255)
 }
 
+model users {
+  UserName String  @unique(map: "Users_UNIQUE") @db.VarChar(100)
+  UserID   Int     @id @default(autoincrement())
+  Password String  @db.VarChar(100)
+  Status   String? @db.VarChar(100)
+  Role     String? @db.VarChar(100)
+}
+
 enum orders_order_status {
   processing
   completed
