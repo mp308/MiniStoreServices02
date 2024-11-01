@@ -6,6 +6,7 @@ const apiRouter = require('./routes/api');
 const apiv2Router = require('./routes/apiv2');
 const apiProdRouter = require('./routes/apiProd');
 const apiProdv2Router = require('./routes/apiProdv2');
+const apiOrders = require('./routes/apiOrders');
 
 const https = require('https');
 const fs = require('fs');
@@ -22,11 +23,18 @@ app.use(cookieParser());
 // return res.status(200).send('<h1>Hello Server</h1>');
 // });
 
+app.use(express.urlencoded({ extended: true }));  // เพื่อให้รับข้อมูลแบบ form ได้ add by gpt
+
 app.use('/api/v1', apiRouter)
 app.use('/api/v2', apiv2Router)
 app.use('/api/prod', apiProdRouter) //add apiprod
 app.use('/api/prodv2', apiProdv2Router) //add apiprodv2
 app.use("/api-docs", swaggerUI.serve, swaggerUI.setup(swaggerSpecs));
+app.use("/api", apiOrders)
+
+app.use('/uploads', express.static('uploads'));
+app.use('/profiles', express.static('profiles'));
+app.use('/payments', express.static('payments'));
 
 
 const ssl_options = {
@@ -34,7 +42,7 @@ const ssl_options = {
     cert: fs.readFileSync('./ssl/cert.pem')
 }
 
-const secure_port = 8443;
+const secure_port = 8444;
 
 const port = 8080;
 app.listen(port, () => {

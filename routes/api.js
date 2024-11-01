@@ -11,6 +11,12 @@ const customerController = require('../controllers/customers');
 
 const authController = require('../controllers/auth');
 const userController = require('../controllers/users');
+const healthInfoController = require('../controllers/healthInfo');
+const reviewsController = require('../controllers/reviews');
+const discountController = require('../controllers/discount')
+const userDiscountController = require('../controllers/userdiscount');
+const categoryController = require('../controllers/categories')
+
 
 router.post('/customers', apiLimiter, customerController.createCustomer);
 router.put('/customers', apiLimiter, customerController.updateCustomer);
@@ -21,9 +27,50 @@ router.get('/customers', apiLimiter, customerController.getCustomers);
 
 router.get('/customers', authController.verifyToken, customerController.getCustomers);
 
+router.get('/healthinfo', apiLimiter, healthInfoController.getAllHealthInfo);
+router.get('/healthinfo/:userId', apiLimiter, healthInfoController.getHealthInfo);
+router.put('/healthinfo/:userId', apiLimiter, healthInfoController.updateHealthInfo);
+
+router.post('/reviews', reviewsController.createReview)
+router.get('/reviews', reviewsController.getReviews)
+router.put('/reviews/:id', reviewsController.updateReviews)
+router.delete('/reviews/:id', reviewsController.deleteReviews)
+router.get('/reviews/:id', reviewsController.getReviewsByReviewID)
+router.get('/reviews/user/:userID', reviewsController.getReviewsByUserID)
+router.get('/reviews/product/:productID', reviewsController.getReviewsByProductID)
+
 router.post('/users', userController.createUser);
+router.get('/users', userController.getAllUsers)
+router.get('/users/:id', userController.getUserById)
+
 router.post('/login', authController.login);
 router.get('/logout', authController.logout);
+
+router.put('/request-password-reset', authController.requestPasswordReset)
+router.put('/reset-password', authController.resetPassword);
+
+router.post('/discounts', apiLimiter, discountController.createDiscount);     // สร้าง Discount
+router.get('/discounts', apiLimiter, discountController.getAllDiscounts);     // ดึง Discount ทั้งหมด
+router.get('/discounts/:id', apiLimiter, discountController.getDiscountById); // ดึง Discount ตาม ID
+router.put('/discounts/:id', apiLimiter, discountController.updateDiscount);  // อัปเดต Discount
+router.delete('/discounts/:id', apiLimiter, discountController.deleteDiscount); // ลบ Discount
+
+router.post('/userdiscounts', userDiscountController.createUserDiscount);
+router.get('/userdiscounts/user/:userID', userDiscountController.getUserDiscounts);
+router.get('/userdiscounts/:id', userDiscountController.getUserDiscountById);
+router.put('/userdiscounts/:id', userDiscountController.updateUserDiscount);
+router.delete('/userdiscounts/:id', userDiscountController.deleteUserDiscount);
+router.post('/apply-discount-to-all', userDiscountController.applyDiscountToAllUsers)
+router.get('/userdiscounts/user/active/:userID', userDiscountController.getUserDiscountsActive);
+
+// Zone categories
+router.get('/category', categoryController.getAllCategory);
+router.get('/category/:categoryId', categoryController.getCategoryById);
+router.put('/category/:categoryId', categoryController.updateCategory);
+router.delete('/category/:categoryId', categoryController.deleteCategory);
+router.post('/category', categoryController.createCategory);// เพิ่มเส้นทางสำหรับการสร้างหมวดหมู่
+
+
 module.exports = router;
 
 /**

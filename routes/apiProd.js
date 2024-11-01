@@ -9,12 +9,19 @@ const apiLimiter = rateLimit({
 
 const productController = require('../controllers/products');
 
-router.post('/products', apiLimiter, productController.createProduct);
-router.put('/products', apiLimiter, productController.updateProduct);
-router.delete('/products/:id',apiLimiter, productController.deleteProduct);
-router.get('/products/:id', apiLimiter, productController.getProduct);
-router.get('/products/q/:term', apiLimiter, productController.getProductsByTerm);
-router.get('/products', apiLimiter, productController.getProducts);
+router.post('/products',  productController.createProduct);
+router.put('/products/:id',  productController.updateProduct);
+router.delete('/products/:id', productController.deleteProduct);
+router.get('/products/:id',  productController.getProduct);
+router.get('/products/q/:term',  productController.getProductsByTerm);
+router.get('/products',  productController.getProducts);
+
+// router.post('/products', apiLimiter, productController.createProduct);
+// router.put('/products', apiLimiter, productController.updateProduct);
+// router.delete('/products/:id',apiLimiter, productController.deleteProduct);
+// router.get('/products/:id', apiLimiter, productController.getProduct);
+// router.get('/products/q/:term', apiLimiter, productController.getProductsByTerm);
+// router.get('/products', apiLimiter, productController.getProducts);
 
 
 module.exports = router;
